@@ -31,8 +31,8 @@ public class Application {
 
     @RequestMapping("/upload")
     public void editorUpload(HttpServletRequest request,HttpServletResponse response) throws IOException {
-        String rootPath = request.getServletContext().getRealPath("/");
-        response.getWriter().write( new ActionEnter(request, rootPath).exec());
+        //String rootPath = request.getServletContext().getRealPath("/");
+        response.getWriter().write( ActionEnter.build(request,"classpath:", "config.json").exec());
     }
 
     @Component

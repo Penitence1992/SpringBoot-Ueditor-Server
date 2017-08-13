@@ -62,15 +62,13 @@ public final class ConfigManager {
 		this.rootPath = rootPath;
 		this.originalPath = null;
 		this.contextPath = null;
-		this.initEnvByLocation();
+		this.initEnvByLocation(rootPath);
 	}
 
-	private void initEnvByLocation() throws IOException {
-		InputStream is = getClass().getClassLoader().getResourceAsStream("/" + configFileName);
-
-		String configContent = this.readFile(is);
+	private void initEnvByLocation(String path) throws IOException {
+		String configContent = ResourcesUtils.readFileToString(path);
 		try{
-			JSONObject jsonConfig = new JSONObject( configContent );
+			JSONObject jsonConfig = new JSONObject(configContent);
 			this.jsonConfig = jsonConfig;
 		} catch ( Exception e ) {
 			this.jsonConfig = null;
@@ -100,11 +98,9 @@ public final class ConfigManager {
         }
     }
 
-	public static ConfigManager getInstance(String rootPath){
-		String path = ConfigManager.class.getResource("/config.json").getPath();
-		System.out.println(path);
+	public static ConfigManager getInstance(String path){
 		try {
-			return new ConfigManager(rootPath);
+			return new ConfigManager(path);
 		} catch ( Exception e ) {
 			return null;
 		}

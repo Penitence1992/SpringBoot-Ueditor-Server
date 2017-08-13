@@ -9,6 +9,7 @@ import com.baidu.ueditor.hunter.ImageHunter;
 import com.baidu.ueditor.upload.Uploader;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.util.Map;
 
 public class ActionEnter {
@@ -34,10 +35,9 @@ public class ActionEnter {
 		this.configManager = configManager;
 	}
 
-	public ActionEnter(HttpServletRequest request){
-		this.request = request;
-		this.actionType = request.getParameter( "action" );
-		this.configManager = ConfigManager.getInstance(request.getServletContext().getRealPath( "/" ));
+	public static ActionEnter build(HttpServletRequest request, String path, String fileName){
+		ConfigManager configManager = ConfigManager.getInstance(path + File.separator + fileName);
+		return new ActionEnter(request,configManager);
 	}
 	
 	public String exec () {
